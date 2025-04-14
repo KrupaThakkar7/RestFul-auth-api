@@ -18,10 +18,10 @@ app.use('/', registerRouter);
 //connect to mongodb 
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("Connected successfully to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error" , err));
+  .catch((err) => console.error("MongoDB connection error", err));
 
 const port = process.env.PORT || 3000;
 
-app.listen(port , () => {
-    console.log(`Server listening on http://localhost:${port}`);
+app.listen(port, () => {
+  console.log(`Server listening on http://localhost:${port}`);
 });

@@ -1,0 +1,25 @@
+/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
+pattern ---> pattern to match
+/pattern/ --> regex that matches a pattern
+^ ---> Matches start of  , which means starting of string se match hona chalu hoga(us se aage kuch nhi hona chahiye)
+$ ---> Matches end of string (matlab yaha , TLD ke baad kuch nahi hona chahiye)
+[a-zA-Z0-9._%+-]+-------->
+    [] --- Any character specified in []
+    a-z , A-Z --> Matches any alphabet
+    0-9 --> Matches numeric values
+    .,_,%,+,- --> Matches these special characters (new emails me local parts me % & + bhi allowed hai)
+    + --> shows one or more occurance 
+@ ---> Matches '@' ---> Seperator
+[a-zA-Z0-9.-]+  ---> matches  LLD , these after @ like gmail , yahoo etc. , but not allows "_"
+\. ----> matches .(dot) after LLD like gmail.com , but uses '\' before it because '.' is also a special character used in regex and thus we have to use \. instead of . to avoid misinterpretation.
+[a-zA-Z]{2,} ---> Matches TLD made up of alphabets i.e. a-z , A-Z and of minimum length 2 with no upper limit ---> It may like this [a-zA-Z]{2,4} to set upper limit TLD to 4 but it doesn't match newer TLDs like .technology , .museum
+
+
+
+METHODS :
+Method	------> Description
+compile()----->	Deprecated in version 1.5. Compiles a regular expression
+exec()	 -----> Tests for a match in a string. Returns the first match
+test()	 -----> Tests for a match in a string. Returns true or false
+toString() ---> Returns the string value of the regular expression

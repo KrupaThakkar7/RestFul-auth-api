@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const userModel = require('./models/userModel');
-const registerRouter = require('./routes/registerRoute')
+const registerRouter = require('./routes/userRoutes')
 
 const app = express();
 app.use(express.json()); //Parses JSON data from the request body and makes it available in req.body.
@@ -17,7 +17,7 @@ app.use('/', registerRouter);
 
 //connect to mongodb 
 mongoose.connect(process.env.MONGO_URL)
-  .then(() => console.log("Connected successfully to MongoDB"))
+  .then(() => console.log("Connected to:", mongoose.connection.name))
   .catch((err) => console.error("MongoDB connection error", err));
 
 const port = process.env.PORT || 3000;

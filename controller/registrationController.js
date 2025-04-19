@@ -1,14 +1,15 @@
 const bcrypt = require("bcrypt");
-const { Types } = require('mongoose') // Importing for automatic userId generation
-const userModel = require('../models/userModel')
-const validateUser = require('../utils/validation')
+const { Types } = require('mongoose'); // Importing for automatic userId generation
+const userModel = require('../models/userModel');
+const validateUser = require('../utils/validation');
+const mailer = require('../utils/mailer');
 
 
 //method for registration
 const userRegistration = async function (req, res) {
     try {
         //Storing data from request body to 3 constants : userId , email , password
-        const { email, password } = req.body;
+        const { email, password , googleId, facebookId, linkedInId } = req.body;
 
         const validUser = validateUser(email, password);
         if (!validUser) {
@@ -34,27 +35,31 @@ const userRegistration = async function (req, res) {
 
         if (googleId) {
             userData.googleId = googleId;
-            provider = "google";
-        }
-        if (facebookId) {
+            userData.provider = "google";
+        }else if (facebookId) {
             userData.facebookId = facebookId;
-            provider = "facebook";
-        }
-        if (linkedInId) {
+            userData.provider = "facebook";
+        }else if (linkedInId) {
             userData.linkedInId = linkedInId;
-            provider = "linkedIn";
-        }
-
-        if (!user.provider) {
-            userData.provider = "local";
+            userData.provider = "linkedIn";
+        }else{
+            userData.provider = "local"
         }
 
         const user = new userModel(userData);
         await user.save();
 
+        //to send mail
+        await mailer({
+            to: email,
+            subject: "Successful Registration!",
+            plainText: "You logged in to our app using this mail...",
+            html: `<p>You logged in to our app using this mail. If it's not you, <a href="#">Check Activity</a></p>`,
+        });
+
         res.status(201).json({ msg: "User registered successfully" });
     } catch (err) {
-        res.status(500).json({ "Error": err });
+        res.status(500).json({ error: err.message, stack: err.stack });
     }
 }
 

@@ -2,10 +2,11 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/userModel');
+const mailer = require('../utils/mailer');
 
 const userLogin = async function(req,res){
     try {
-        const {email , password} = req.body;
+        const {email , password , googleId , facebookId , linkedInId} = req.body;
 
         const user = await userModel.findOne({email}).lean();
         if(!user){
@@ -21,9 +22,20 @@ const userLogin = async function(req,res){
         //token is made using sign(payload , secretkey , options like expireIn , issuedBy etc)
         const token = jwt.sign({ id: user.userId , email: user.email } , process.env.JWT_SECRET , { expiresIn : '1h'} );
 
-        res.cookie('login-token' , token , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 60 * 60 * 1000} )
+        res.cookie('login-token' , token , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 60 * 60 * 1000});
 
-        res.json({message : "Login successful !"});
+        res.status(200).json({message : "Login successful !"});
+
+        //to send mail
+        await mailer({
+            to: email,
+            subject: "Login Alert",
+            plainText: "Welcome back!",
+            html: `<p>You logged in to our app using this mail. If it's not you, <a href="#">Check Activity</a></p>`,
+        });
+        
+
+
     } catch (err) {
         console.error(err);
         res.status(500).json({message : "Server Error"});

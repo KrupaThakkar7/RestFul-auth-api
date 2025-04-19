@@ -8,17 +8,33 @@ const userLogin = async function(req,res){
     try {
         const {email , password , googleId , facebookId , linkedInId} = req.body;
 
-        const user = await userModel.findOne({email}).lean();
+        let user;
+
+        //Finding user using email or email+OAuth 
+        if(googleId){
+            user = await userModel.findOne({email , googleId}).lean();
+        }else if(facebookId){
+            user = await userModel.findOne({email , facebookId}).lean();
+        }else if(linkedInId){
+            user = await userModel.findOne({email , linkedInId}).lean();
+        }else{
+            user = await userModel.findOne({email}).lean();
+        }
+
         if(!user){
-            return res.status(400).json({message : "Invalid Credentials"});
-        }
-        const isMatch  = await bcrypt.compare(password , user.password);
-        //1st argument "password" is the one user entered in login form(req.password) & user.password is the hashed password stored in DB.
-
-        if(!isMatch){
-            return res.status(400).json({message : "Invalid Credentials"});
+            res.status(400).json({message : "Invalid Credentials!"});
         }
 
+        //Check password only for local provider
+        if(!googleId && !facebookId && !linkedInId){
+            const isMatch  = await bcrypt.compare(password , user.password);
+            //1st argument "password" is the one user entered in login form(req.password) & user.password is the hashed password stored in DB.
+
+            if(!isMatch){
+            return res.status(400).json({message : "Invalid Credentials"});
+            }
+        }
+        
         //token is made using sign(payload , secretkey , options like expireIn , issuedBy etc)
         const token = jwt.sign({ id: user.userId , email: user.email } , process.env.JWT_SECRET , { expiresIn : '1h'} );
 

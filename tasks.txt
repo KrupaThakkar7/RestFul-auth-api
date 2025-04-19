@@ -1,0 +1,13 @@
+COMPLETED(19/4/25):
+    1.Complete user router , registration controller , login controller , validation utility , schemas & all other necessities.
+    2.Setup mailer 
+    3.Test login,register routes and mailer utility
+    4. Pushing all work in github(except this txt file)
+
+UPCOMING :
+    1.Use express-validator and integrate with custom validation function
+    2.Test all routes again
+    3.Check cookies (sent by server on login)
+    4.Refresh token
+    5. Other functionalites like log-out , profile update etc.
+    6. Then opt for SSO & MFA

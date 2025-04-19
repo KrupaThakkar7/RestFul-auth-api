@@ -26,15 +26,30 @@ const userRegistration = async function (req, res) {
         const hashedPassword = await bcrypt.hash(password, salt); // Generate hashed password using salt 
 
         //For local method of registration(email + password)
-        const user = new userModel({
-            userId: new Types.ObjectId().toString(), //Generates a unique ID --> better security
+        const userData = {
+            userId: new Types.ObjectId().toString(),
             email: email,
             password: hashedPassword,
-            googleId: null,
-            facebookId: null,
-            linkedInId: null,
-            provider: "local"
-        });
+        };
+
+        if (googleId) {
+            userData.googleId = googleId;
+            provider = "google";
+        }
+        if (facebookId) {
+            userData.facebookId = facebookId;
+            provider = "facebook";
+        }
+        if (linkedInId) {
+            userData.linkedInId = linkedInId;
+            provider = "linkedIn";
+        }
+
+        if (!user.provider) {
+            userData.provider = "local";
+        }
+
+        const user = new userModel(userData);
         await user.save();
 
         res.status(201).json({ msg: "User registered successfully" });

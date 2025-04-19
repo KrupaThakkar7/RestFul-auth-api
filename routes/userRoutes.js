@@ -8,6 +8,11 @@ const router = express.Router();
 router.post('/register', userRegistration);
 router.post('/login' , userLogin);
 
+/*To access this pages , use URLS : "http://localhost:3000/register" or "http://localhost:3000/login" i.e. 
+    1. http://localhost:3000 ---> server running on it
+    2. '/' ---> form server.js where we mount userRouter(exported from userRouter.js) --->we have to use'/user' instead of '/' if we mention app.use('/user' , userRouter) ----> i.e. full url : "http://localhost:3000/user/register".
+    3.'/register' ---> from userRouter 
+*/
 module.exports = router;
 
 

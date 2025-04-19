@@ -1,0 +1,123 @@
+ console.log(typeof (app));  ----> function
+  console.log(typeof (express)); ----> function
+  console.log(typeof(mongoose));--> object ---> never called as mongoose()
+  console.log(typeof(cookieParser)); ----> function --> we can call it in our apps like cookieParser()
+  console.log(typeof(cors)); ----> function --> we can call it in our apps like cors()
+  console.log('\n');
+
+  console.log(typeof (port)); --> string
+  console.log('\n');
+
+  console.log(typeof (userModel)); ----> function   --> Exported
+  console.log(typeof(registerRouter))----> function --> Exported
+
+
+
+  BY GPT : 
+  Great observation! Let's break it down — you're inspecting the types of different variables, and seeing a mix of **function**, **object**, and **string**. Let’s go line by line and explain **why** you're seeing each type.
+
+---
+
+### **1. `typeof(app)` → `'function'`**
+```js
+const app = express();
+```
+- `express()` returns a **function-like object**, specifically an instance of an Express application.
+- Even though it’s an object, internally Express makes it callable (so it’s both a function and object).
+- That's why `typeof(app)` returns `'function'`.
+
+---
+
+### **2. `typeof(express)` → `'function'`**
+```js
+const express = require('express');
+```
+- `express` is the **main function exported** from the Express module.
+- You **call** it to create an app: `const app = express();`
+- So `typeof(express)` is `'function'`.
+
+---
+
+### **3. `typeof(mongoose)` → `'object'`**
+```js
+const mongoose = require('mongoose');
+```
+- `mongoose` exports an **object** that contains properties like `connect()`, `model()`, etc.
+- You're not calling `mongoose()` — because it’s **not a function**, it's a namespace-like object.
+- So `typeof(mongoose)` is `'object'`.
+
+---
+
+### **4. `typeof(cookieParser)` → `'function'`**
+```js
+const cookieParser = require('cookie-parser');
+```
+- The `cookie-parser` module exports a **middleware factory function**.
+- You later call it like: `app.use(cookieParser())`.
+- Hence, `typeof(cookieParser)` is `'function'`.
+
+---
+
+### **5. `typeof(cors)` → `'function'`**
+```js
+const cors = require('cors');
+```
+- Just like `cookie-parser`, the `cors` module exports a **function** (middleware factory).
+- You use it like `app.use(cors())`.
+
+---
+
+### **6. `typeof(port)` → `'string'`**
+```js
+const port = process.env.PORT || '3000';
+```
+- If `PORT` is not defined, you're assigning the string `'3000'` — so it's a **string**.
+- Even if `PORT` is defined in `.env`, it comes from the environment as a **string** by default.
+- So `typeof(port)` is `'string'`.
+
+> ⚠️ You can convert it using `Number(port)` if you want to ensure it’s a number.
+
+---
+
+### **7. `typeof(userModel)` → `'function'`**
+```js
+const userModel = mongoose.model('User', userSchema);
+```
+- Mongoose models are **constructor functions** (classes behind the scenes).
+- So `typeof(userModel)` is `'function'`.
+
+---
+
+### **8. `typeof(registerRouter)` → `'function'`**
+```js
+const registerRouter = require('./routes/register');
+```
+- If your `register.js` file exports an **Express router function** (like `module.exports = router`), then:
+  ```js
+  const router = express.Router();
+  ```
+  you're importing that object — Express Routers are also **function-like objects**, so you may see `'function'`.
+
+  If your file exports a wrapper like:
+  ```js
+  module.exports = () => router;
+  ```
+  then you'd get a regular `'function'` here too.
+
+---
+
+### ✅ Summary:
+
+| Variable         | Type     | Why? |
+|------------------|----------|------|
+| `app`            | function | Express app is a function-like object |
+| `express`        | function | It's a function to create app instances |
+| `mongoose`       | object   | Exports an object with many functions |
+| `cookieParser`   | function | Middleware factory |
+| `cors`           | function | Middleware factory |
+| `port`           | string   | Comes from environment as string |
+| `userModel`      | function | Mongoose model (class constructor) |
+| `registerRouter` | function | Most likely exporting a router or router factory |
+
+---
+

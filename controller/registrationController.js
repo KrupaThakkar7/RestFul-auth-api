@@ -4,12 +4,12 @@ const userModel = require('../models/userModel');
 const validateUser = require('../utils/validation');
 const mailer = require('../utils/mailer');
 
-
 //method for registration
 const userRegistration = async function (req, res) {
     try {
         //Storing data from request body to 3 constants : userId , email , password
         const { email, password , googleId, facebookId, linkedInId } = req.body;
+
 
         const validUser = validateUser(email, password);
         if (!validUser) {

@@ -8,6 +8,7 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.EMAIL,
         pass: process.env.EMAIL_PASSWORD
+        //Keys should be 'user' & 'pass' only , as they have special meaning.
     },
 });
 

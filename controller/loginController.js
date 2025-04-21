@@ -40,8 +40,6 @@ const userLogin = async function(req,res){
 
         res.cookie('login-token' , token , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 60 * 60 * 1000});
 
-        res.status(200).json({message : "Login successful !"});
-
         //to send mail
         await mailer({
             to: email,
@@ -50,7 +48,7 @@ const userLogin = async function(req,res){
             html: `<p>You logged in to our app using this mail. If it's not you, <a href="#">Check Activity</a></p>`,
         });
         
-
+        res.status(200).json({message : "Login successful !"});
 
     } catch (err) {
         console.error(err);

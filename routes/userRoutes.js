@@ -1,19 +1,26 @@
 const express = require('express');
-const {userRegistration} = require('../controller/registrationController');
+const { userRegistration } = require('../controller/registrationController');
 const { userLogin } = require('../controller/loginController');
 const { validateResetPassword } = require('../utils/validateResetPswd');
-const {resetPassword} = require('../controller/resetController');
+const { resetPassword } = require('../controller/resetController');
 
 
 const router = express.Router();
 
+router.get('/register', (req, res) => {
+    res.render('register');
+});
 router.post('/register', userRegistration);
-router.post('/login' , userLogin);
+
+router.get('/login', (req, res) => {
+    res.render('login');
+});
+router.post('/login', userLogin);
 
 /* Runs validateResetPassword first:
     If validation fails → it returns an error.
     If validation passes → calls resetPassword.*/
-router.post('/reset-password' , validateResetPassword , resetPassword);
+router.post('/reset-password', validateResetPassword, resetPassword);
 
 
 

@@ -9,16 +9,16 @@ const resetPassword = async function (req, res) {
 
         const user = await userModel.findOne({ email }).lean();
         if (!user) {
-            res.status(400).json({ message: "Invalid Credentials!" });
+            return res.status(400).json({ message: "Invalid Credentials!" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            res.status(400).json({ message: "Invalid Credentials!" });
+            return res.status(400).json({ message: "Invalid Credentials!" });
         }
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await userModel.updateOne({ email }, { $set: { password: newPassword } });
+        await userModel.updateOne({ email }, { $set: { password: hashedPassword } });
 
         await mailer({
             to: email,

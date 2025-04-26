@@ -3,6 +3,7 @@ const { userRegistration } = require('../controller/registrationController');
 const { userLogin } = require('../controller/loginController');
 const { validateResetPassword } = require('../utils/validateResetPswd');
 const { resetPassword } = require('../controller/resetController');
+const { fetchRefreshToken } = require('../controller/refreshToken')
 
 
 const router = express.Router();
@@ -21,6 +22,8 @@ router.post('/login', userLogin);
     If validation fails → it returns an error.
     If validation passes → calls resetPassword.*/
 router.post('/reset-password', validateResetPassword, resetPassword);
+
+router.post('/refresh-token', fetchRefreshToken);
 
 
 

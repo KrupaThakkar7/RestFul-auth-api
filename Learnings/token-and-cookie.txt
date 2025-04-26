@@ -1,0 +1,25 @@
+FOR GENERATING TOKEN :
+    1.Iports 'jsinwebtoken' as jwt
+    2.use 'sign()' method like jwt.sign(payload[to be sent] , jwt-secret , options like expiration time )
+    3. EG :- const token = jwt.sign({ id: user.userId , email: user.email } , process.env.JWT_SECRET , { expiresIn : '1h'} );
+    4 . Here , a token named "token" is generated using sigh() method.
+
+FOR SETTING COOKIE :
+    EG : res.cookie('login-token' , token , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 60 * 60 * 1000});
+        METHOD : cookie()
+
+        PARAMETERS :
+
+            1. 'login-token' --> name of cookie
+
+            2. 'token' --> user defined token created using jwt.sign() method.
+
+             3. httpOnly : true  --> Allow only html , js in browswr can't read it and thus Prevents malicious scripts from stealing sensitive data  like session tokens or JWTs.
+
+            4. secure : false --> In development , we are using http & thus set it as false , set it 'true' when we are using 'https'
+
+            5. sameSite : strict --> Prevents the browser from sending cookies in cross-site requests (like iframes, forms, or links from another site). , Protects against CSRF (Cross-Site Request Forgery) attacks by making sure only requests from your own origin carry the cookie.
+
+            6. maxAge : 60 * 60 * 1000 --> Set expiration time of cookie to be 1 hr (expressed  in mili secs) .
+            
+    We don't need to send cookie explicitly , it is sent implicitly

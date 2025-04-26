@@ -11,3 +11,6 @@ UPCOMING :
     4.Refresh token
     5. Other functionalites like log-out , profile update etc.
     6. Then opt for SSO & MFA
+
+
+    PENDING FORGOT PASSWORD AS NEED TO UPDATE SCHEMA & HAVE TO ADD OTP & ITS EXPIRES TIME IN IT.

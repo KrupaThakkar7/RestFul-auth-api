@@ -3,7 +3,8 @@ const { userRegistration } = require('../controller/registrationController');
 const { userLogin } = require('../controller/loginController');
 const { validateResetPassword } = require('../utils/validateResetPswd');
 const { resetPassword } = require('../controller/resetController');
-const { fetchRefreshToken } = require('../controller/refreshToken')
+const { fetchRefreshToken } = require('../controller/refreshToken');
+
 
 
 const router = express.Router();

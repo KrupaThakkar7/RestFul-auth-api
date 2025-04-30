@@ -37,7 +37,7 @@ const userLogin = async function(req,res){
         
         //token is made using sign(payload , secretkey , options like expireIn , issuedBy etc)
         const accessToken = jwt.sign({ id: user.userId , email: user.email } , process.env.JWT_ACCESS_SECRET , { expiresIn : '1h'} );
-        const refreshToken = jwt.sign({id : user.userId , email : user.email} , process.env.JWT_REFRESH_TOKEN , {expiresIn : '1d'});
+        const refreshToken = jwt.sign({id : user.userId , email : user.email} , process.env.JWT_REFRESH_SECRET , {expiresIn : '1d'});
  
         res.cookie('access-token' , accessToken , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 60 * 60 * 1000});
         res.cookie('refresh-token' , refreshToken , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 1*24*60 * 60 * 1000});
@@ -58,8 +58,6 @@ const userLogin = async function(req,res){
     }
   
 }
-
-
 
 module.exports = {
     userLogin

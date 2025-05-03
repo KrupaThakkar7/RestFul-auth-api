@@ -1,17 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const userModel = require('../models/userModel');
-
-
-passport.serializeUser((user, done) => {
-    done(null, user.id); // Save only user ID in session
-});
-
-passport.deserializeUser((id, done) => {
-    userModel.findById(id)
-        .then(user => done(null, user))
-        .catch(err => done(err));
-});
+const jwt = require("jsonwebtoken");
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -19,10 +9,18 @@ passport.use(new GoogleStrategy({
     callbackURL: '/auth/google/callback'
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        const user = await findOrCreateUser(profile); //It is user defined function
-        done(null, user);
+        const user = await findOrCreateUser(profile); // your function
+
+        // Generate JWT here
+        const token = jwt.sign(
+            { id: user._id, email: user.email }, 
+            SECRET_KEY, 
+            { expiresIn: '1h' }
+        );
+        // Pass token forward
+        return done(null, { user, token });
     } catch (error) {
-        done(error, null);
+        return done(error, null);
     }
 }));
 

@@ -13,12 +13,16 @@ passport.use(new GoogleStrategy({
 
         // Generate JWT here
         const token = jwt.sign(
-            { id: user._id, email: user.email }, 
-            SECRET_KEY, 
+            { id: user._id, email: user.email },
+            process.env.SECRET_KEY,
             { expiresIn: '1h' }
         );
         // Pass token forward
-        return done(null, { user, token });
+
+        req.user = user;
+        req.token = token;
+
+        return done(null, user);
     } catch (error) {
         return done(error, null);
     }

@@ -5,6 +5,7 @@ const { validateResetPassword } = require('../utils/validateResetPswd');
 const { resetPassword } = require('../controller/resetController');
 const { fetchRefreshToken } = require('../controller/refreshToken');
 const { googleAuth } = require('../controller/OAuth');
+const {googleResponseHandler } = require('../controller/OAuth');
 
 
 
@@ -29,6 +30,8 @@ router.post('/reset-password', validateResetPassword, resetPassword);
 router.post('/refresh-token', fetchRefreshToken);
 
 router.get('/auth-google' , googleAuth);
+
+router.get('/auth/google/callback' , googleResponseHandler)
 
 
 

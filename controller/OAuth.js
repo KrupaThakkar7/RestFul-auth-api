@@ -18,7 +18,7 @@ const googleResponseHandler = (req, res, next) => {
             { expiresIn: '1h' }
         );
 
-        res.cookie('token', token, {
+        res.cookie('accessToken', token, {
             httpOnly: true,
             // secure: process.env.NODE_ENV === 'production',
             sameSite: 'Strict'

@@ -1,0 +1,12 @@
+S1: Click on button(anchor tag) "Login with google"
+
+s2: Redirects user to "/auth-google" and calls function "googleAuth"
+
+s3: "googleAuth" function uses "passport.authenticate" which tells passport to use google strategy and asks for profile(name) & email.
+
+s4: This redirects to "callback" route and send profile and email .
+
+s5: we call "googleResponseHandler" function that calls authenticate function again and generates jwt token and stores in cookie.
+
+
+MODIFY FROM S4 LATER , MAKE IT MORE CLEARER.

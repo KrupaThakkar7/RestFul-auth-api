@@ -92,6 +92,16 @@ form input {
 
 }
 
+#logoutBtn{
+    background-color: var(--form-bg) !important;
+    color: inherit;
+    border: 2px solid var(--border-color);
+    border-radius: 0.3pc;
+    margin-top: 25px;
+    padding: 10px;
+    text-decoration: none;
+}
+
 /* #googleBtn>i {
     margin-right: 15px;
 } */

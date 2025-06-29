@@ -8,7 +8,7 @@ const mailer = require('../utils/mailer');
 const userRegistration = async function (req, res) {
     try {
         //Storing data from request body to 3 constants : userId , email , password
-        const { email, password , googleId, facebookId, linkedInId } = req.body;
+        const { email, password, googleId, facebookId, linkedInId } = req.body;
 
 
         const validUser = validateUser(email, password);
@@ -36,13 +36,13 @@ const userRegistration = async function (req, res) {
         if (googleId) {
             userData.googleId = googleId;
             userData.provider = "google";
-        }else if (facebookId) {
+        } else if (facebookId) {
             userData.facebookId = facebookId;
             userData.provider = "facebook";
-        }else if (linkedInId) {
+        } else if (linkedInId) {
             userData.linkedInId = linkedInId;
             userData.provider = "linkedIn";
-        }else{
+        } else {
             userData.provider = "local"
         }
 
@@ -57,7 +57,7 @@ const userRegistration = async function (req, res) {
             html: `<p>You logged in to our app using this mail. If it's not you, <a href="#">Check Activity</a></p>`,
         });
 
-        res.status(201).json({ msg: "User registered successfully" });
+        res.redirect('/dashboard');
 
     } catch (err) {
         res.status(500).json({ error: err.message, stack: err.stack });

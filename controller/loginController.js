@@ -39,8 +39,8 @@ const userLogin = async function(req,res){
         const accessToken = jwt.sign({ id: user.userId , email: user.email } , process.env.JWT_ACCESS_SECRET , { expiresIn : '1h'} );
         const refreshToken = jwt.sign({id : user.userId , email : user.email} , process.env.JWT_REFRESH_SECRET , {expiresIn : '1d'});
  
-        res.cookie('access-token' , accessToken , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 60 * 60 * 1000});
-        res.cookie('refresh-token' , refreshToken , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 1*24*60 * 60 * 1000});
+        res.cookie('accessToken' , accessToken , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 60 * 60 * 1000});
+        res.cookie('refreshToken' , refreshToken , {httpOnly : true , secure : false , sameSite : 'strict' , maxAge : 1*24*60 * 60 * 1000});
 
         //to send mail
         await mailer({
@@ -50,7 +50,7 @@ const userLogin = async function(req,res){
             html: `<p>You logged in to our app using this mail. If it's not you, <a href="#">Check Activity</a></p>`,
         });
         
-        return res.status(200).json({message : "Login successful !"});
+        return res.redirect('/dashboard');
 
     } catch (err) {
         console.error(err);

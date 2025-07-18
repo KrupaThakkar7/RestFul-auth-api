@@ -1,0 +1,9 @@
+Learnings
+node_modules
+.env
+.git
+.gitignore
+Dockerfile
+docker-compse.yml
+*.md 
+tasks.txt

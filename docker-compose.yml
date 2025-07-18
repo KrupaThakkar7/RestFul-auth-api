@@ -1,11 +1,11 @@
-version: '3.8'
-
+ 
 services:
   app:
     build: .
     container_name: node_auth_app
     ports:
-      - "3000:3000"       
+      - "3000:3000"   
+      - "5500:5500"    
     environment:
       - NODE_ENV=development
       - PORT=3000
